@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="packager" default="package" basedir=".">
+
+	<!-- Load all bootstrapping properties. -->
+	<property file="package.properties" />
+	<property file="publish.properties" />
+	<property name="zip-file" value="${tmp-dir}/${zip-name}" />
+	
+	<!-- TARGETS -->
+
+	<target name="package" description="">
+		<zip basedir="${workspaces-product-dir}"
+			destfile="${zip-file}"
+			includes="${packaging.includes}"
+			excludes="${packaging.excludes}" />		
+		<antcall target="ftp">
+			<param name="ftp-server" value="${platform.host.lin32}" />
+			<param name="target-dir" value="${platform.tmp-dir.lin}" />
+		</antcall>
+		<antcall target="ftp">
+			<param name="ftp-server" value="${platform.host.lin64}" />
+			<param name="target-dir" value="${platform.tmp-dir.lin}" />
+		</antcall>
+		<antcall target="ftp">
+			<param name="ftp-server" value="${platform.host.win32}" />
+			<param name="target-dir" value="${platform.tmp-dir.win}" />
+		</antcall>
+	</target>
+	
+	<target name="ftp" description="First deletes existing remote zip file then puts new build file.">
+		<ftp server="${ftp-server}"
+				action="del"
+       			remotedir="${target-dir}"
+				userid="${ftp.username}"
+				password="${ftp.password}">
+			<fileset file="${zip-file}" />
+		</ftp>
+		<ftp server="${ftp-server}"
+       			remotedir="${target-dir}"
+				userid="${ftp.username}"
+				password="${ftp.password}"
+				binary="yes">
+			<fileset file="${zip-file}" /> 
+		</ftp>
+	</target>
+
+</project>

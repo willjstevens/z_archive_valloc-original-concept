@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?pde version="3.5"?>
+
+<product name="Valloc Desktop" uid="com.valloc.desktop.product" id="com.valloc.desktop.valloc_desktop" application="com.valloc.desktop.application" version="1.0.0.qualifier" useFeatures="true" includeLaunchers="true">
+
+   <configIni use="default">
+   </configIni>
+
+   <launcherArgs>
+      <programArgs>-os ${target.os} -ws ${target.ws} -arch ${target.arch} -nl ${target.nl}</programArgs>
+      <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts</vmArgsMac>
+   </launcherArgs>
+
+
+   <launcher name="vdesktop">
+      <solaris/>
+      <win useIco="false">
+         <bmp/>
+      </win>
+   </launcher>
+
+   <vm>
+      <windows>org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6</windows>
+   </vm>
+
+   <plugins>
+   </plugins>
+
+   <features>
+      <feature id="com.valloc.desktop.product" version="1.0.0.qualifier"/>
+   </features>
+
+   <configurations>
+      <plugin id="com.valloc.desktop" autoStart="false" startLevel="0" />
+      <plugin id="org.eclipse.core.runtime" autoStart="false" startLevel="0" />
+      <plugin id="org.eclipse.equinox.common" autoStart="false" startLevel="0" />
+      <plugin id="org.eclipse.osgi" autoStart="false" startLevel="0" />
+   </configurations>
+
+</product>

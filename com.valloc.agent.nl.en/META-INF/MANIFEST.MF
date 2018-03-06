@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: English
+Bundle-SymbolicName: com.valloc.agent.nl.en
+Bundle-Version: 1.0.0.qualifier
+Bundle-Vendor: VALLOC
+Fragment-Host: com.valloc.agent;bundle-version="1.0.0"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ClassPath: .,
+ $nl$/

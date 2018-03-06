@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="build" default="build">
+
+	<!-- Property installations in dependent order. -->
+	<property name="builder" location="${build-project}" />
+	<property file="${build-project}/valloc.properties" />
+	<property file="${build-project}/build.properties" />
+	<import file="${product-build-file}" />
+
+	<!-- TARGETS -->
+
+	<target name="build" description="Starting level build target in new PDE JVM process.">
+		<property name="features-dir" value="${buildDirectory}/features" />
+		<property name="plugins-dir" value="${buildDirectory}/plugins" />
+		<echoproperties />
+		<delete includeemptydirs="true" failonerror="false">
+			<fileset dir="${build-dir.publish.versioned}" includes="**/*" />
+		</delete>
+		<mkdir dir="${build-dir.publish.versioned}" />
+		<mkdir dir="${build-dir.publish.versioned.win32-win32-x86}" />
+		<mkdir dir="${build-dir.publish.versioned.win32-win32-x86_64}" />
+		<mkdir dir="${build-dir.publish.versioned.linux-gtk-x86}" />
+		<mkdir dir="${build-dir.publish.versioned.linux-gtk-x86_64}" />
+		<antcall target="build-server" />
+
+		<echo message="VALLOC BUILD SUCCESSFUL." />
+		<antcall target="copy-log-file" />
+	</target>
+
+	<target name="stage-product-build" description="Performs common setup tasks for each of the server, agent and desktop PDE product builds.">
+		<delete includeemptydirs="true" failonerror="false">
+			<fileset dir="${buildDirectory}" includes="**/*" />
+		</delete>
+		<mkdir dir="${buildDirectory}" />
+		<mkdir dir="${features-dir}" />
+		<mkdir dir="${plugins-dir}" />
+		<copy todir="${plugins-dir}">
+			<fileset dir="${checkout-dir}/">
+				<include name="${project.common}/" />
+				<include name="${project.common.nl.en}/" />
+			</fileset>
+		</copy>
+		<copy todir="${buildDirectory}">
+			<fileset file="${build-project}/${sign.keystore}" />
+		</copy>
+	</target>
+
+	<target name="move-to-publish" description="Once through then pushes newly created PDE artifacts into official Valloc build publish directory structure.">
+		<move todir="${build-dir.publish.versioned.win32-win32-x86_64}">
+			<fileset file="${output-dir}/*${platform.win32-win32-x86_64}*"/>
+		</move>
+		<move todir="${build-dir.publish.versioned.win32-win32-x86}">
+			<fileset file="${output-dir}/*${platform.win32-win32-x86}*"/>
+		</move>
+		<move todir="${build-dir.publish.versioned.linux-gtk-x86_64}">
+			<fileset file="${output-dir}/*${platform.linux-gtk-x86_64}*"/>
+		</move>
+		<move todir="${build-dir.publish.versioned.linux-gtk-x86}">
+			<fileset file="${output-dir}/*${platform.linux-gtk-x86}*"/>
+		</move>
+	</target>
+
+	<target name="copy-log-file" if="logfile" description="Moves the output log file to the versioned publish directory.">
+		<copy todir="${build-dir.publish.versioned}">
+			<fileset file="${build-dir}/${logfile}"/>
+		</copy>
+	</target>
+
+	<target name="build-server" description="Builds the valloc server PDE product for all platforms.">
+		<antcall target="stage-product-build" />
+		<copy todir="${plugins-dir}">
+			<fileset dir="${checkout-dir}/">
+				<include name="${project.server}/"/>
+				<include name="${project.server.nl.en}/" />
+			</fileset>
+		</copy>
+		<copy todir="${features-dir}">
+			<fileset dir="${checkout-dir}/">
+				<include name="${project.server.feature}/" />
+				<include name="${project.server.product}/" />
+			</fileset>
+		</copy>
+		<antcall target="main">
+			<param name="topLevelElementId" value="${project.server.product}" />
+			<param name="product" value="${checkout-dir}/${project.server.product}/${file.product.server}" />
+			<param name="archivePrefix" value="${product.symbol}-${component.server}" />
+			<param name="buildId" value="${product.symbol}-${component.server}-${product.version}" />
+		</antcall>
+		<antcall target="move-to-publish" />
+	</target>
+</project>

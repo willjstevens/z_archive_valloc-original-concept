@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<projectDescription>
+	<name>misc</name>
+	<comment></comment>
+	<projects>
+	</projects>
+	<buildSpec>
+		<buildCommand>
+			<name>org.eclipse.jdt.core.javabuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+	</buildSpec>
+	<natures>
+		<nature>org.eclipse.jdt.core.javanature</nature>
+	</natures>
+	<linkedResources>
+		<link>
+			<name>flash-workspace-backup.properties</name>
+			<type>1</type>
+			<location>C:/dev/flash-workspace-backup.properties</location>
+		</link>
+		<link>
+			<name>flash-workspace-backup.xml</name>
+			<type>1</type>
+			<location>C:/dev/flash-workspace-backup.xml</location>
+		</link>
+	</linkedResources>
+</projectDescription>

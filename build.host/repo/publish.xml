@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="publish" default="publish-all" basedir=".">
+
+	<!-- Load all bootstrapping properties. -->
+	<property file="publish.properties" />
+	<condition property="branch" value="${default-branch}">
+		<not><isset property="branch" /></not>
+	</condition>
+
+	<!-- TARGETS -->
+
+	<target name="publish-all" description="Publishes all versioned build files to target hosts.">
+		<antcall target="publish-lin32" />
+		<antcall target="publish-lin64" />
+		<antcall target="publish-win32" />
+		<antcall target="publish-win64" />
+	</target>
+
+	<target name="publish-lin32" description="Publishes the Linux 32 bit version build files.">		
+		<antcall target="ftp">
+			<param name="ftp-server" value="${platform.host.lin32}" />
+			<param name="source-dir" value="${publish-dir}/${branch}/${platform.lin32}" />
+			<param name="target-dir" value="${platform.tmp-dir.lin}" />
+		</antcall>
+	</target>
+
+	<target name="publish-lin64" description="Publishes the Linux 64 bit version build files.">
+		<antcall target="ftp">
+			<param name="ftp-server" value="${platform.host.lin64}" />
+			<param name="source-dir" value="${publish-dir}/${branch}/${platform.lin64}" />
+			<param name="target-dir" value="${platform.tmp-dir.lin}" />
+		</antcall>
+	</target>
+
+	<target name="publish-win32" description="Publishes the Windows 32 bit version build files.">
+		<antcall target="ftp">
+			<param name="ftp-server" value="${platform.host.win32}" />
+			<param name="source-dir" value="${publish-dir}/${branch}/${platform.win32}" />
+			<param name="target-dir" value="${platform.tmp-dir.win}" />
+		</antcall>
+	</target>
+
+	<target name="publish-win64" description="Publishes the Windows 64 bit version build files.">
+		<antcall target="ftp">
+			<param name="ftp-server" value="${platform.host.win64}" />
+			<param name="source-dir" value="${publish-dir}/${branch}/${platform.win64}" />
+			<param name="target-dir" value="${platform.tmp-dir.win}" />
+		</antcall>
+	</target>
+
+	<target name="ftp" description="First deletes existing remote zip file then puts new build file.">
+		<ftp server="${ftp-server}"
+				action="del"
+       			remotedir="${target-dir}"
+				userid="${ftp.username}"
+				password="${ftp.password}">
+			<fileset dir="${source-dir}">
+				<include name="valloc*.zip"/>
+			</fileset>
+		</ftp>
+		<ftp server="${ftp-server}"
+       			remotedir="${target-dir}"
+				userid="${ftp.username}"
+				password="${ftp.password}"
+				binary="yes"
+				skipFailedTransfers="true">
+			<fileset dir="${source-dir}">
+				<include name="*.zip"/>
+			</fileset>
+		</ftp>
+	</target>
+</project>

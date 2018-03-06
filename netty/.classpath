@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry excluding="org/jboss/netty/channel/socket/http/|org/jboss/netty/channel/xnio/|org/jboss/netty/container/guice/|org/jboss/netty/container/osgi/|org/jboss/netty/container/spring/|org/jboss/netty/handler/codec/protobuf/|org/jboss/netty/example/http/tunnel/|org/jboss/netty/example/localtime/" kind="src" path="java"/>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
+	<classpathentry kind="lib" path="lib/commons-logging-1.1.1.jar"/>
+	<classpathentry kind="lib" path="lib/osgi.core-4.1.jar"/>
+	<classpathentry kind="lib" path="lib/log4j-1.2.16.jar"/>
+	<classpathentry kind="lib" path="lib/osgi.cmpn-4.1.jar"/>
+	<classpathentry kind="lib" path="lib/slf4j-api-1.5.2.jar"/>
+	<classpathentry kind="lib" path="lib/jboss-logging-spi.jar"/>
+	<classpathentry kind="output" path="classes"/>
+</classpath>

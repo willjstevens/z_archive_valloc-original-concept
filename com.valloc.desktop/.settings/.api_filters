@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<component id="com.valloc.desktop" version="2">
+    <resource path="src/com/valloc/DesktopResources.java" type="com.valloc.DesktopResources">
+        <filter id="643842064">
+            <message_arguments>
+                <message_argument value="DesktopControllerComponentFactory"/>
+                <message_argument value="DesktopResources"/>
+                <message_argument value="getControllerComponentFactory()"/>
+            </message_arguments>
+        </filter>
+        <filter id="643842064">
+            <message_arguments>
+                <message_argument value="DesktopFrameworkComponentFactory"/>
+                <message_argument value="DesktopResources"/>
+                <message_argument value="getFrameworkComponentFactory()"/>
+            </message_arguments>
+        </filter>
+        <filter id="643842064">
+            <message_arguments>
+                <message_argument value="DesktopServiceComponentFactory"/>
+                <message_argument value="DesktopResources"/>
+                <message_argument value="getServiceComponentFactory()"/>
+            </message_arguments>
+        </filter>
+        <filter id="643842064">
+            <message_arguments>
+                <message_argument value="DesktopSessionComponentFactory"/>
+                <message_argument value="DesktopResources"/>
+                <message_argument value="getSessionComponentFactory()"/>
+            </message_arguments>
+        </filter>
+        <filter id="643842064">
+            <message_arguments>
+                <message_argument value="DesktopTransportComponentFactory"/>
+                <message_argument value="DesktopResources"/>
+                <message_argument value="getTransportComponentFactory()"/>
+            </message_arguments>
+        </filter>
+        <filter id="643846161">
+            <message_arguments>
+                <message_argument value="DesktopControllerComponentFactory"/>
+                <message_argument value="DesktopResources"/>
+                <message_argument value="setControllerComponentFactory(DesktopControllerComponentFactory)"/>
+            </message_arguments>
+        </filter>
+        <filter id="643846161">
+            <message_arguments>
+                <message_argument value="DesktopFrameworkComponentFactory"/>
+                <message_argument value="DesktopResources"/>
+                <message_argument value="setFrameworkComponentFactory(DesktopFrameworkComponentFactory)"/>
+            </message_arguments>
+        </filter>
+        <filter id="643846161">
+            <message_arguments>
+                <message_argument value="DesktopServiceComponentFactory"/>
+                <message_argument value="DesktopResources"/>
+                <message_argument value="setServiceComponentFactory(DesktopServiceComponentFactory)"/>
+            </message_arguments>
+        </filter>
+        <filter id="643846161">
+            <message_arguments>
+                <message_argument value="DesktopSessionComponentFactory"/>
+                <message_argument value="DesktopResources"/>
+                <message_argument value="setSessionComponentFactory(DesktopSessionComponentFactory)"/>
+            </message_arguments>
+        </filter>
+        <filter id="643846161">
+            <message_arguments>
+                <message_argument value="DesktopTransportComponentFactory"/>
+                <message_argument value="DesktopResources"/>
+                <message_argument value="setTransportComponentFactory(DesktopTransportComponentFactory)"/>
+            </message_arguments>
+        </filter>
+    </resource>
+</component>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="build" default="workspace-build" basedir=".">
+
+	<!-- SVN Type Definition -->
+	<typedef resource="org/tigris/subversion/svnant/svnantlib.xml" classpath="svnant.jar" /> 
+
+	<!-- Load all bootstrapping properties. -->
+	<property file="build.properties" />	
+	<!-- Setup optional properties. -->
+	<condition property="signJars" value="false">
+		<not><isset property="signJars" /></not>
+	</condition>
+	<condition property="svn-branch" value="${svn-default-branch}">
+		<not><isset property="svn-branch" /></not>
+	</condition>
+	
+	<!-- TARGETS -->
+	
+	<target name="repository-build" description="This build is for doing a fresh pull from SVN, then beginning PDE build.">
+		<property name="checkout-url" value="${svn-base-repo-url}/${svn-branch}/" />
+		<delete includeemptydirs="true" failonerror="false">
+			<fileset dir="${checkout-dir}" includes="**/*" />
+		</delete>
+		<echo message="Checking out product source from ${checkout-url}" />		
+		<svn username="${svn-build-username}" password="${svn-build-password}">
+			<checkout url="${checkout-url}" destPath="${checkout-dir}" />
+		</svn>
+		<delete failonerror="false">
+			<fileset dir="${checkout-dir}" includes="**/.*/"/>
+		</delete>
+		<antcall target="build" />
+	</target>
+
+	<target name="workspace-build" description="This build is for doing a pull from W1 desktop workspace, then beginning PDE build.">		
+		<delete includeemptydirs="true" failonerror="false">
+			<fileset dir="${checkout-dir}" includes="**/*" />
+		</delete>
+		<copy todir="${checkout-dir}">
+			<fileset dir="${workspaces-product-dir}/">
+				<exclude name=".metadata/" />
+				<exclude name="**/.*/" />
+				<exclude name="**/classes/" />
+				<exclude name="build-development/" />
+			</fileset>
+		</copy>
+		<antcall target="build" />
+	</target>
+		
+	<target name="build" description="Invoke PDE process, pushing forward established properties into new JVM process.">
+		<exec executable="java">
+			<arg line="-jar ${eclipse-launcher}" />
+			<arg line="-application org.eclipse.ant.core.antRunner" />
+			<arg line="-buildfile ${build-project}/build.xml" />
+			<arg line="-logfile ${logfile}" />
+				<arg line="-Dbuild-dir=${build-dir}" />
+				<arg line="-Dcheckout-dir=${checkout-dir}" />
+				<arg line="-Dbuild-project=${build-project}" />
+				<arg line="-Dtarget-dir=${target-dir}" />
+				<arg line="-Declipse-home=${eclipse-home}" />			
+				<arg line="-Dproduct-build-file=${product-build-file}" />
+				<arg line="-Dtarget.jre=${target.jre}" />
+				<arg line="-Dtarget.eclipse-platform=${target.eclipse-platform}" />
+				<arg line="-DsignJars=${signJars}" />
+				<arg line="-Dlogfile=${logfile}" />
+		</exec>
+
+		<echo message="VALLOC BUILD SUCCESSFUL." />
+	</target>
+</project>

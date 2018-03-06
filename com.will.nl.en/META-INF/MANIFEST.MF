@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: %product-name
+Bundle-SymbolicName: com.will.nl.en
+Bundle-Version: 1.0.0.qualifier
+Bundle-Vendor: WILL
+Fragment-Host: com.will;bundle-version="1.0.0"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ClassPath: $nl$/

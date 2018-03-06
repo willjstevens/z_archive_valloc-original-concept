@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="build" default="unpackage" basedir=".">
+
+	<tstamp>
+		<format property="bak-time" pattern="yyyyMMdd-hh:mm" />
+	</tstamp>
+
+	<!-- Load all bootstrapping properties. -->
+	<property file="unpackage.properties" />
+	<property name="zip-file" value="${tmp-dir}/${zip-name}" /> 
+	<property name="bak-zip-file" value="${tmp-dir}/workspace-bak.${bak-time}.zip" />
+	
+	<!-- TARGETS -->
+	
+	<target name="unpackage" description="Unpackages the zip file into the eclipse workspace.">
+		<zip basedir="${workspaces-product-dir}"
+			destfile="${bak-zip-file}"
+			excludes="${packaging.excludes}" />
+		<delete includeemptydirs="true" failonerror="false">
+			<fileset dir="${work-dir}" includes="**/*" />
+		</delete>
+		<mkdir dir="${work-dir}" />
+		<antcall target="set-perms" />
+		<unzip src="${zip-file}" dest="${work-dir}"/>		
+		<antcall target="setup-project">
+			<param name="project-root" value="${workspaces-product-dir}/com.valloc.common" />
+			<param name="source-root" value="${work-dir}/com.valloc.common" />
+		</antcall>	
+		<antcall target="setup-project">
+			<param name="project-root" value="${workspaces-product-dir}/com.valloc.common.nl.en" />
+			<param name="source-root" value="${work-dir}/com.valloc.common.nl.en" />
+		</antcall>
+		<antcall target="setup-project">
+			<param name="project-root" value="${workspaces-product-dir}/com.valloc.server" />
+			<param name="source-root" value="${work-dir}/com.valloc.server" />
+		</antcall>
+		<antcall target="setup-project">
+			<param name="project-root" value="${workspaces-product-dir}/com.valloc.server.nl.en" />
+			<param name="source-root" value="${work-dir}/com.valloc.server.nl.en" />
+		</antcall>
+		<antcall target="setup-project">
+			<param name="project-root" value="${workspaces-product-dir}/com.valloc.server.feature" />
+			<param name="source-root" value="${work-dir}/com.valloc.server.feature" />
+		</antcall>
+		<antcall target="setup-project">
+			<param name="project-root" value="${workspaces-product-dir}/com.valloc.server.product" />
+			<param name="source-root" value="${work-dir}/com.valloc.server.product" />
+		</antcall>
+	</target>
+
+	<target name="set-perms" if="is-linux">
+		<chmod file="${zip-file}" perm="755" />
+	</target>
+
+	<target name="setup-project">
+		<delete includeemptydirs="true" failonerror="false">
+			<fileset dir="${project-root}/src" includes="**/*" />
+			<fileset dir="${project-root}/classes" includes="**/*" />
+			<fileset dir="${project-root}/nl" includes="**/*" />
+			<fileset dir="${project-root}/.settings" includes="**/*" />
+			<fileset dir="${project-root}/lib" includes="**/*" />
+			<fileset dir="${project-root}/META-INF" includes="**/*" />
+			<fileset file="${project-root}/*.properties" /> 
+			<fileset file="${project-root}/*.xml" />
+			<fileset file="${project-root}/*.product" />
+			<fileset file="${project-root}/.*" />
+		</delete>
+		<copy todir="${project-root}/.settings" failonerror="false">
+			<fileset dir="${source-root}/.settings/" /> 
+		</copy>
+		<copy todir="${project-root}/src" failonerror="false">
+			<fileset dir="${source-root}/src/" /> 
+		</copy>
+		<copy todir="${project-root}/nl" failonerror="false">
+			<fileset dir="${source-root}/nl/" /> 
+		</copy>
+		<copy todir="${project-root}/META-INF" failonerror="false">
+			<fileset dir="${source-root}/META-INF/" /> 
+		</copy>
+		<copy todir="${project-root}/lib" failonerror="false">
+			<fileset dir="${source-root}/lib/" /> 
+		</copy>
+		<copy todir="${project-root}" failonerror="false">
+			<fileset file="${source-root}/*.properties" />
+			<fileset file="${source-root}/*.xml" />
+			<fileset file="${source-root}/*.product" />
+			<fileset file="${source-root}/.*" />
+		</copy>
+	</target>
+	
+</project>
